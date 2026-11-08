@@ -1,0 +1,165 @@
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports: ["80:80"]
+    volumes: ["./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"]
+    depends_on: [gateway, realtime, web]
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  gateway:
+    <<: &node
+      image: node:22-alpine
+      working_dir: /workspace
+      volumes: ["..:/workspace"]
+      command:
+        ["node", "--experimental-strip-types", "apps/gateway/src/index.ts"]
+      environment: { PORT: "4000" }
+      depends_on: [mongo, redis, kafka]
+    healthcheck: &health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  scoring-api:
+    <<: *node
+    command:
+      ["node", "--experimental-strip-types", "apps/scoring-api/src/index.ts"]
+    environment: { PORT: "4001" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4001/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  parser:
+    <<: *node
+    command: ["node", "--experimental-strip-types", "apps/parser/src/index.ts"]
+    environment: { PORT: "4002" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4002/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  realtime:
+    <<: *node
+    command:
+      ["node", "--experimental-strip-types", "apps/realtime/src/index.ts"]
+    environment: { PORT: "4003" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4003/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  projector:
+    <<: *node
+    command:
+      ["node", "--experimental-strip-types", "apps/projector/src/index.ts"]
+    environment: { PORT: "4100" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4100/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  outbox-relay:
+    <<: *node
+    command:
+      ["node", "--experimental-strip-types", "apps/outbox-relay/src/index.ts"]
+    environment: { PORT: "4101" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4101/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  report-worker:
+    <<: *node
+    command:
+      ["node", "--experimental-strip-types", "apps/report-worker/src/index.ts"]
+    environment: { PORT: "4102" }
+    healthcheck:
+      <<: *health
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4102/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+  web:
+    image: nginx:stable-alpine
+    volumes:
+      - ../apps/web/index.html:/usr/share/nginx/html/index.html:ro
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  mongo:
+    image: mongo:7
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'mongosh --quiet --eval ''try { rs.status().ok } catch (e) { rs.initiate({_id:"rs0",members:[{_id:0,host:"mongo:27017"}]}).ok }'''
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  kafka:
+    image: apache/kafka:3.8.0
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20

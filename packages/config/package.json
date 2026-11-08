@@ -1,0 +1,7 @@
+{
+  "name": "@voicescore/config",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

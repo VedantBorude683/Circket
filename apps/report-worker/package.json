@@ -1,0 +1,8 @@
+{
+  "name": "@voicescore/report-worker",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "node --experimental-strip-types src/index.ts"
+  }
+}

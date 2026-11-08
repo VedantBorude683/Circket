@@ -1,0 +1,8 @@
+{
+  "name": "@voicescore/web",
+  "private": true,
+  "scripts": {
+    "build": "echo web-ready",
+    "dev": "echo web-ready"
+  }
+}

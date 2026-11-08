@@ -1,0 +1,18 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/gateway" },
+    { "path": "./apps/scoring-api" },
+    { "path": "./apps/parser" },
+    { "path": "./apps/realtime" },
+    { "path": "./apps/projector" },
+    { "path": "./apps/outbox-relay" },
+    { "path": "./apps/report-worker" },
+    { "path": "./packages/config" },
+    { "path": "./packages/engine" },
+    { "path": "./packages/eventbus" },
+    { "path": "./packages/logger" },
+    { "path": "./packages/schemas" },
+    { "path": "./packages/testkit" }
+  ]
+}

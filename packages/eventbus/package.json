@@ -1,0 +1,7 @@
+{
+  "name": "@voicescore/eventbus",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}
