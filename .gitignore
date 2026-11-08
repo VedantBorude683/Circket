@@ -3,3 +3,5 @@ dist
 .env
 .pnpm-store
 evals/cricsheet
+*.tsbuildinfo
+.DS_Store
