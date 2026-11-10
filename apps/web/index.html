@@ -7,7 +7,43 @@
   <body>
     <main>
       <h1>VoiceScore</h1>
-      <p>M0 skeleton</p>
+      <p>M3 live scoring demo</p>
+      <label>Match ID <input id="match" value="demo" /></label>
+      <button id="four">Score four</button>
+      <button id="undo">Undo last</button>
+      <pre id="status">Ready</pre>
     </main>
+    <script>
+      const status = document.getElementById("status");
+      const command = (value) =>
+        fetch(
+          `/api/matches/${document.getElementById("match").value}/commands`,
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(value)
+          }
+        )
+          .then(async (response) => {
+            status.textContent = await response.text();
+          })
+          .catch((error) => {
+            status.textContent = error.message;
+          });
+      document.getElementById("four").onclick = () =>
+        command({
+          clientEventId: crypto.randomUUID(),
+          epoch: 0,
+          source: "button",
+          command: { kind: "record_ball", ball: { runsOffBat: 4 } }
+        });
+      document.getElementById("undo").onclick = () =>
+        command({
+          clientEventId: crypto.randomUUID(),
+          epoch: 0,
+          source: "button",
+          command: { kind: "undo_last" }
+        });
+    </script>
   </body>
 </html>

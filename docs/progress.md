@@ -43,4 +43,14 @@
 - Added MongoDB transactional event-store implementation with unique event, idempotency, and outbox indexes.
 - Added match creation, scorer claim, and structured command HTTP routes.
 - Tests cover idempotent retries, stale epochs, and concurrent sequence conflicts.
-- M3 has not been started.
+
+## M3: Real-time pipeline
+
+- Status: complete
+- Added KafkaJS and in-memory EventBus implementations.
+- Added transactional-outbox relay core with duplicate suppression.
+- Added idempotent scoreboard projector and bounded 200-event reconnect history.
+- Added Socket.IO realtime join/leave/live event handling.
+- Added minimal button-based browser scoring demo.
+- Tests cover projection deduplication, reconnect replay, bounded history, and outbox publication.
+- M4 has not been started.

@@ -4,5 +4,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "node --experimental-strip-types src/index.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "@voicescore/eventbus": "workspace:*"
   }
 }
