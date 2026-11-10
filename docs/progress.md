@@ -33,4 +33,14 @@
 - Cricsheet validation snapshot: IPL JSON download used locally on 2026-11-08.
 - Replay stages: 5/5 exact, 10/10 exact, 20/20 exact.
 - Skipped matches: none.
-- M2 has not been started.
+- M2 is complete below.
+
+## M2: Event store and command API
+
+- Status: complete
+- Added Zod command request validation and an in-memory EventBus implementation.
+- Added synchronous scoring service with engine validation, idempotency, epoch fencing, optimistic sequence checks, and outbox records.
+- Added MongoDB transactional event-store implementation with unique event, idempotency, and outbox indexes.
+- Added match creation, scorer claim, and structured command HTTP routes.
+- Tests cover idempotent retries, stale epochs, and concurrent sequence conflicts.
+- M3 has not been started.

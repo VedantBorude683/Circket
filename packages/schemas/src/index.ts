@@ -128,3 +128,12 @@ export type Command = (
   transcript?: string;
   clientEventId?: string;
 };
+
+export const commandRequestSchema = z.object({
+  clientEventId: z.string().min(1),
+  epoch: z.number().int().nonnegative(),
+  source: z.enum(["voice", "button"]),
+  transcript: z.string().max(16_384).optional(),
+  command: commandSchema.optional()
+});
+export type CommandRequest = z.infer<typeof commandRequestSchema>;
