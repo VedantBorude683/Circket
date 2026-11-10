@@ -8,8 +8,10 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:replay": "pnpm --filter @voicescore/testkit build && node packages/testkit/dist/replay-cli.js",
+    "eval:voice": "pnpm --filter @voicescore/schemas build && pnpm --filter @voicescore/parser build && node evals/voice/run.ts",
     "typecheck": "tsc -b",
-    "format": "prettier --check ."
+    "format": "prettier --check .",
+    "pretest": "pnpm -r build"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

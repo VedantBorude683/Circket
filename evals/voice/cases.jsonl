@@ -1,0 +1,30 @@
+{"transcript":"dot","expected":{"kind":"record_ball","ball":{"runsOffBat":0}}}
+{"transcript":"0","expected":{"kind":"record_ball","ball":{"runsOffBat":0}}}
+{"transcript":"ek","expected":{"kind":"record_ball","ball":{"runsOffBat":1}}}
+{"transcript":"one","expected":{"kind":"record_ball","ball":{"runsOffBat":1}}}
+{"transcript":"do","expected":{"kind":"record_ball","ball":{"runsOffBat":2}}}
+{"transcript":"two","expected":{"kind":"record_ball","ball":{"runsOffBat":2}}}
+{"transcript":"teen","expected":{"kind":"record_ball","ball":{"runsOffBat":3}}}
+{"transcript":"three","expected":{"kind":"record_ball","ball":{"runsOffBat":3}}}
+{"transcript":"four","expected":{"kind":"record_ball","ball":{"runsOffBat":4}}}
+{"transcript":"chauka","expected":{"kind":"record_ball","ball":{"runsOffBat":4}}}
+{"transcript":"six","expected":{"kind":"record_ball","ball":{"runsOffBat":6}}}
+{"transcript":"chakka","expected":{"kind":"record_ball","ball":{"runsOffBat":6}}}
+{"transcript":"wide","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"wide","runs":1}}}}
+{"transcript":"no ball","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"noball","runs":1}}}}
+{"transcript":"bye","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"bye","runs":1}}}}
+{"transcript":"leg bye","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"legbye","runs":1}}}}
+{"transcript":"undo","expected":{"kind":"undo_last"}}
+{"transcript":"wicket","expected":{"kind":"ask_clarification","question":"Which batter was dismissed and what was the wicket kind?"}}
+{"transcript":"out","expected":{"kind":"ask_clarification","question":"Which batter was dismissed and what was the wicket kind?"}}
+{"transcript":"bowled","expected":{"kind":"ask_clarification","question":"Which batter was dismissed and what was the wicket kind?"}}
+{"transcript":"please four","expected":{"kind":"record_ball","ball":{"runsOffBat":4}}}
+{"transcript":"please six","expected":{"kind":"record_ball","ball":{"runsOffBat":6}}}
+{"transcript":"ek run","expected":{"kind":"record_ball","ball":{"runsOffBat":1}}}
+{"transcript":"do runs","expected":{"kind":"record_ball","ball":{"runsOffBat":2}}}
+{"transcript":"teen runs","expected":{"kind":"record_ball","ball":{"runsOffBat":3}}}
+{"transcript":"chauka please","expected":{"kind":"record_ball","ball":{"runsOffBat":4}}}
+{"transcript":"chakka please","expected":{"kind":"record_ball","ball":{"runsOffBat":6}}}
+{"transcript":"please wide","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"wide","runs":1}}}}
+{"transcript":"please bye","expected":{"kind":"record_ball","ball":{"runsOffBat":0,"extra":{"type":"bye","runs":1}}}}
+{"transcript":"please undo","expected":{"kind":"undo_last"}}

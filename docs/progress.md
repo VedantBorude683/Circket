@@ -54,3 +54,20 @@
 - Added minimal button-based browser scoring demo.
 - Tests cover projection deduplication, reconnect replay, bounded history, and outbox publication.
 - M4 has not been started.
+
+## M5: Voice parser
+
+- Status: complete
+- Added normalized English, Hindi, and Hinglish fast-path parsing with injectable LLM fallback.
+- Added strict Zod validation for parser context and parsed commands.
+- Added bounded parser concurrency and queueing, timeout handling, circuit-breaker behavior, and voice logs.
+- Added `POST /parse` and browser speech-input wiring.
+- Added a 30-case prototype voice evaluation dataset and runner.
+
+### Validation
+
+- `pnpm test`: passed (25 tests)
+- `pnpm lint`: passed
+- `pnpm typecheck`: passed
+- `pnpm eval:voice`: passed (30/30 exact, 100.00% fast-path accuracy)
+- M4 remains intentionally skipped per prototype scope in `agent.md`.

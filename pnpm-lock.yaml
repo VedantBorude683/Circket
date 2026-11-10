@@ -38,7 +38,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/eventbus
 
-  apps/parser: {}
+  apps/parser:
+    dependencies:
+      '@voicescore/schemas':
+        specifier: workspace:*
+        version: link:../../packages/schemas
 
   apps/projector:
     dependencies:

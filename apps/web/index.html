@@ -11,6 +11,7 @@
       <label>Match ID <input id="match" value="demo" /></label>
       <button id="four">Score four</button>
       <button id="undo">Undo last</button>
+      <button id="voice">Speak</button>
       <pre id="status">Ready</pre>
     </main>
     <script>
@@ -44,6 +45,28 @@
           source: "button",
           command: { kind: "undo_last" }
         });
+      document.getElementById("voice").onclick = () => {
+        const Recognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Recognition) {
+          status.textContent = "Speech input is unavailable; use buttons.";
+          return;
+        }
+        const recognition = new Recognition();
+        recognition.lang = "en-IN";
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          status.textContent = `Heard: ${transcript}`;
+          fetch("/parse", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ transcript, context: {} })
+          }).then(async (response) => {
+            status.textContent = await response.text();
+          });
+        };
+        recognition.start();
+      };
     </script>
   </body>
 </html>

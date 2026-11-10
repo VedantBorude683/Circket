@@ -137,3 +137,28 @@ export const commandRequestSchema = z.object({
   command: commandSchema.optional()
 });
 export type CommandRequest = z.infer<typeof commandRequestSchema>;
+
+export const parserContextSchema = z.object({
+  striker: z.string().optional(),
+  bowler: z.string().optional(),
+  over: z.number().int().nonnegative().optional(),
+  ball: z.number().int().nonnegative().optional(),
+  knownPlayerNames: z.array(z.string()).default([])
+});
+export type ParserContext = z.infer<typeof parserContextSchema>;
+
+export const parsedCommandSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("record_ball"),
+    ball: ballPayloadSchema.omit({ source: true, transcript: true })
+  }),
+  z.object({ kind: z.literal("undo_last") }),
+  z.object({ kind: z.literal("set_bowler"), playerId: z.string().min(1) }),
+  z.object({
+    kind: z.literal("set_batter"),
+    playerId: z.string().min(1),
+    role: z.enum(["striker", "non_striker"])
+  }),
+  z.object({ kind: z.literal("ask_clarification"), question: z.string().min(1) })
+]);
+export type ParsedCommand = z.infer<typeof parsedCommandSchema>;
